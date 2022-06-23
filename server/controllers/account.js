@@ -1,5 +1,5 @@
 const Account = require("../models/account");
-
+const { changeMoney } = require("./utilities");
 async function getUsers(req, res) {
   try {
     const users = await Account.find({});
@@ -23,34 +23,18 @@ async function addAccount(req, res) {
 }
 
 async function updateUser(req, res) {
-  const updates = Object.keys(req.body);
-
-  const allowedUpdates = ["credit", "money", "name"];
-
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
-
-  if (!isValidOperation) {
-    return res.status(400).send({ error: "Invalid updates!" });
-  }
   try {
-    const user = await Account.findById(req.params.id);
-
-    updates.forEach((update) => (user[update] = req.body[update]));
-    await user.save();
-
-    if (!user) {
-      return res.status(404).send();
-    }
-
-    res.send(user);
+    const users = await changeMoney(req.body, req.params);
+    users.forEach(async (user) => {
+      await user.save();
+    });
+    res.send(users);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(error.statusCode).send(error.message);
   }
 }
 module.exports = {
-  getusers: getUsers,
+  getUsers,
   updateUser,
   addAccount,
 };
