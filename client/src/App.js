@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import apiInstance from "./api/api";
 
 function App() {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   async function getdata() {
     const { data } = await apiInstance.get(`/users`);
     setData(data);
@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       {data.map((account) => {
         return (
-          <div>
+          <div key={account._id}>
             {account.name} /{account.money}/{account.credit}
           </div>
         );
