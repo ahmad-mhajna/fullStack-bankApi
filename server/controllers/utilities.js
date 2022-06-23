@@ -4,28 +4,34 @@ async function changeMoney(body, params) {
   let id = body.id;
   let amount = body.amount;
   let transferID = body.transferID;
+  if (!id || (!transferID && type === "transfer")) {
+    throw {
+      statusCode: 400,
+      message: "Id is not defined",
+    };
+  }
   if (id === transferID)
-    throw new Error({
+    throw {
       statusCode: 400,
       message: "you cant transfer to your self",
-    });
+    };
 
   if (!amount)
-    throw new Error({
+    throw {
       statusCode: 400,
       message: "amount is not defined",
-    });
+    };
   let user = await Account.findById(id);
   if (!user)
-    throw new Error({
-      statusCode: 400,
+    throw {
+      statusCode: 404,
       message: "user dose not exist",
-    });
+    };
   if (amount < 0) {
-    throw new Error({
+    throw {
       statusCode: 400,
       message: "the amount cant be negtive",
-    });
+    };
   }
   if (type === "deposit") {
     user.money += amount;
@@ -41,18 +47,18 @@ async function changeMoney(body, params) {
         user.credit -= amount;
       } else user.money -= amount;
     } else
-      throw new Error({
+      throw {
         statusCode: 400,
         message: "not enough money",
-      });
+      };
   }
   if (type === "transfer") {
     let transferUser = await Account.findById(transferID);
     if (!transferUser)
-      throw new Error({
+      throw {
         statusCode: 400,
         message: "trasnferUser dose not exist",
-      });
+      };
 
     if (user.money + user.credit >= amount) {
       transferUser.money += amount;
@@ -62,10 +68,10 @@ async function changeMoney(body, params) {
         user.credit -= amount;
       } else user.money -= amount;
     } else
-      throw new Error({
+      throw {
         statusCode: 400,
         message: "not enough money",
-      });
+      };
     return [user, transferUser];
   }
   return [user];
