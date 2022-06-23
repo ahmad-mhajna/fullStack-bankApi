@@ -7,15 +7,15 @@ const Account = mongoose.model("Account", {
   },
   money: {
     type: Number,
-    required: true,
+    default: 0,
   },
   credit: {
     type: Number,
-    required: true,
+    default: 0,
   },
   isActive: {
     type: Boolean,
-    required: true,
+    default: true,
   },
 });
 module.exports = Account;
