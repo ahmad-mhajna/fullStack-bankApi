@@ -1,6 +1,8 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import apiInstance from "./api/api";
+import Input from "./components/input/Input";
+import Button from "./components/Button/Button";
 
 function App() {
   const [data, setData] = useState([]);
@@ -29,6 +31,7 @@ function App() {
   useEffect(() => {
     if (user.hasOwnProperty("name"))
       setUser(data.find((item) => item._id === user._id));
+    // eslint-disable-next-line
   }, [data]);
 
   useEffect(() => {
@@ -40,14 +43,14 @@ function App() {
     <div className="App">
       {data.map((account) => {
         return (
-          <button
+          <Button
             onClick={() => {
               setUser(account);
             }}
             key={account._id}
           >
             {account.name} /{account.money}/{account.credit}
-          </button>
+          </Button>
         );
       })}
 
@@ -68,21 +71,19 @@ function App() {
         {user.name}/{user.money}/{user.credit}
       </div>
 
-      <input
+      <Input
         label="amount"
         onChange={(event) => {
           const amount = +event.target.value;
           setinput({ ...input, amount: amount });
         }}
-      ></input>
+      />
 
-      <button
+      <Button
         onClick={() => {
           sendingChanges();
         }}
-      >
-        Click me
-      </button>
+      />
 
       <select
         onChange={(event) => {
