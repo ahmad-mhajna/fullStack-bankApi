@@ -10,7 +10,7 @@ async function changeMoney(body, params) {
       message: "Id is not defined",
     };
   }
-  if (id === transferID)
+  if (id === transferID && type === "transfer")
     throw {
       statusCode: 400,
       message: "you cant transfer to your self",

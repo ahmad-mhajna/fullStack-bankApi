@@ -25,9 +25,7 @@ async function addAccount(req, res) {
 async function updateUser(req, res) {
   try {
     const users = await changeMoney(req.body, req.params);
-    users.forEach(async (user) => {
-      await user.save();
-    });
+    await Promise.all(users.map((user) => user.save()));
     res.send(users);
   } catch (error) {
     res.status(error.statusCode).send(error.message);
