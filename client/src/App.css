@@ -1,0 +1,12 @@
+* {
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+}
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background: url("https://previews.123rf.com/images/neyro2008/neyro20081605/neyro2008160500180/57120225-bank-building-with-cityscape-business-and-finance-flat-vector-concept-business-bank-architecture-ban.jpg")
+    no-repeat center center/cover;
+}

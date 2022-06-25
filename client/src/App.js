@@ -1,8 +1,8 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import apiInstance from "./api/api";
-import Input from "./components/input/Input";
 import Button from "./components/Button/Button";
+import Form from "./components/navbar/form";
 
 function App() {
   const [data, setData] = useState([]);
@@ -38,69 +38,44 @@ function App() {
     setinput({ ...input, id: user._id });
     // eslint-disable-next-line
   }, [user]);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await sendingChanges();
+  };
 
   return (
     <div className="App">
-      {data.map((account) => {
-        return (
-          <Button
-            onClick={() => {
-              setUser(account);
-            }}
-            key={account._id}
-          >
-            {account.name} /{account.money}/{account.credit}
-          </Button>
-        );
-      })}
-
-      <select
-        onChange={(event) => {
-          setType(event.target.value);
-        }}
-      >
-        <option value="" hidden>
-          select an option
-        </option>
-        <option value="deposit">Deposit</option>
-        <option value="credit">Credit</option>
-        <option value="withdraw">Withdraw</option>
-        <option value="transfer">Transfer</option>
-      </select>
-      <div className="selected">
-        {user.name}/{user.money}/{user.credit}
-      </div>
-
-      <Input
-        label="amount"
-        onChange={(event) => {
-          const amount = +event.target.value;
-          setinput({ ...input, amount: amount });
-        }}
-      />
-
-      <Button
-        onClick={() => {
-          sendingChanges();
-        }}
-      />
-
-      <select
-        onChange={(event) => {
-          setinput({ ...input, transferID: event.target.value });
-        }}
-      >
-        <option value="" hidden>
-          select an option
-        </option>
+      <div>
         {data.map((account) => {
           return (
-            <option value={account._id}>
+            <Button
+              onClick={() => {
+                setUser(account);
+              }}
+              key={account._id}
+            >
               {account.name} /{account.money}/{account.credit}
-            </option>
+            </Button>
           );
         })}
-      </select>
+      </div>
+      <div>
+        <Form
+          handleSubmit={handleSubmit}
+          selectedUser={user}
+          selectType={(event) => {
+            setType(event.target.value);
+          }}
+          amountChange={(event) => {
+            const amount = +event.target.value;
+            setinput({ ...input, amount: amount });
+          }}
+          transferIdChange={(event) => {
+            setinput({ ...input, transferID: event.target.value });
+          }}
+          data={data}
+        />
+      </div>
     </div>
   );
 }
