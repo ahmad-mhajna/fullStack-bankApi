@@ -1,0 +1,22 @@
+.form {
+  height: 100%;
+  background-color: rgba(143, 143, 143, 0.777);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  gap: 3rem;
+}
+select {
+  width: fit-content;
+  height: 2rem;
+  font-size: 1.5rem;
+}
+input {
+  font-size: 1.5rem;
+  width: 5rem;
+}
+.To {
+  text-align: center;
+}
